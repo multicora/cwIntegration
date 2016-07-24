@@ -1,10 +1,6 @@
 // Ionic App
 
 // TODO: spinner ($ionicLoading)
-// TODO: add ion-refresher
-// TODO: settings link
-// TODO: settings cancel
-// TODO: add contact cancel
 
 // Note: email is communicationItem
 //    communicationItem is multiple for contact

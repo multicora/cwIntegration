@@ -11,8 +11,6 @@
     vm.companies = null;
     vm.contact = null;
 
-    updateContactList();
-
     dataProvider.getContactTypes().then(function (response) {
       vm.contactTypes = response.data;
     });
@@ -20,6 +18,17 @@
     dataProvider.getCompanies().then(function (response) {
       vm.companies = response.data;
     });
+
+    vm.updateContactList = function() {
+      dataProvider.getContacts().then(
+        function (response) {
+          vm.contacts = response.data;
+        },
+        function (response) {
+          vm.err = response;
+        }
+      );
+    };
 
     vm.settingsClickHandler = function () {
       $state.go('appSettings');
@@ -31,7 +40,7 @@
         dataProvider.saveContact(contact).then(
           function (response) {
             vm.closeEditContact();
-            updateContactList();
+            vm.updateContactList();
           },
           function (response) {
             vm.err = response;
@@ -39,6 +48,8 @@
         );
       }
     }
+
+    vm.updateContactList();
 
     // New/edit contact
     $ionicModal.fromTemplateUrl('editContact', {
@@ -65,17 +76,6 @@
     $scope.$on('modal.removed', function() {
       // Execute action
     });
-
-    function updateContactList() {
-      dataProvider.getContacts().then(
-        function (response) {
-          vm.contacts = response.data;
-        },
-        function (response) {
-          vm.err = response;
-        }
-      );
-    }
   }
   controller.$inject = injectArray;
   app.controller('contactsListCtrl', controller);

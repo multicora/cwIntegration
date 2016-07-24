@@ -1,9 +1,9 @@
 (function () {
 
   var app = angular.module('app'),
-    injectArray = ['$state', 'dataProvider'];
+    injectArray = ['$state', '$ionicHistory', 'dataProvider'];
 
-  function controller ($state, dataProvider) {
+  function controller ($state, $ionicHistory, dataProvider) {
     var vm = this,
       settings = dataProvider.getSettings() || {};
 
@@ -24,6 +24,10 @@
         $state.go('contactsList');
       }
     }
+
+    vm.goBack = function () {
+      $ionicHistory.goBack();
+    };
   }
   controller.$inject = injectArray;
   app.controller('settingsCtrl', controller);

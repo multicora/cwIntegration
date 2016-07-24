@@ -45,8 +45,11 @@
           <button class="button" ng-click="vm.settingsClickHandler()">
             <i class="icon ion-gear-a"></i>
           </button>
-          <button class="button edit-contack-btn" ng-click="vm.openEditContact()">
+          <button class="button header-btn" ng-click="vm.openEditContact()">
             <i class="icon ion-plus-round"></i>
+          </button>
+          <button class="button header-btn" ng-click="vm.updateContactList()">
+            <i class="icon ion-refresh"></i>
           </button>
         </ion-nav-buttons>
         <ion-content>
@@ -116,6 +119,9 @@
             </ion-list>
             <button class="button button-full button-positive" ng-click="vm.save(settingsForm)">
               Save
+            </button>
+            <a class="button button-full button-light" ng-click="vm.goBack()">
+              Cancel
             </button>
           </form>
         </ion-content>
@@ -212,6 +218,9 @@
             </ion-list>
             <button class="button button-full button-positive" ng-click="vm.saveContact(vm.editForm, vm.contact)">
               Save
+            </button>
+            <a class="button button-full button-light" ng-click="vm.closeEditContact()">
+              Cancel
             </button>
           </form>
         </ion-content>
