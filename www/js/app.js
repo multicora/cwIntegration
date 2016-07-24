@@ -1,9 +1,18 @@
-// Ionic Starter App
+// Ionic App
+
+// TODO: spinner ($ionicLoading)
+// TODO: add ion-refresher
+// TODO: settings link
+// TODO: settings cancel
+// TODO: add contact cancel
+
+// Note: email is communicationItem
+//    communicationItem is multiple for contact
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
+// 'app' is the name of this angular module (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic'])
+angular.module('app', ['ionic'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -22,3 +31,19 @@ angular.module('starter', ['ionic'])
     }
   });
 })
+
+.config(function($stateProvider, $urlRouterProvider) {
+  $urlRouterProvider.otherwise('/');
+  $stateProvider
+  .state('contactsList', {
+    url: '/',
+    templateUrl: 'contactsList',
+    controller: 'contactsListCtrl as vm'
+  })
+  .state('appSettings', {
+    url: '/appSettings',
+    templateUrl: 'appSettings',
+    controller: 'settingsCtrl as vm'
+  });
+
+});

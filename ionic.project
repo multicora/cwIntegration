@@ -1,4 +1,14 @@
 {
   "name": "myApp",
-  "app_id": ""
+  "app_id": "3151fa2b",
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "https://staging.connectwisedev.com/v2016_5/apis/3.0/"
+    },
+    {
+      "path": "/api/company/contacts",
+      "proxyUrl": "https://staging.connectwisedev.com/v2016_5/apis/3.0/company/contacts"
+    }
+  ]
 }
