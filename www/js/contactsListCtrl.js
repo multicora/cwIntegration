@@ -11,13 +11,13 @@
     vm.companies = null;
     vm.contact = null;
 
-    dataProvider.getContactTypes().then(function (response) {
-      vm.contactTypes = response.data;
-    });
+    // dataProvider.getContactTypes().then(function (response) {
+    //   vm.contactTypes = response.data;
+    // });
 
-    dataProvider.getCompanies().then(function (response) {
-      vm.companies = response.data;
-    });
+    // dataProvider.getCompanies().then(function (response) {
+    //   vm.companies = response.data;
+    // });
 
     vm.updateContactList = function() {
       dataProvider.getContacts().then(
@@ -35,7 +35,6 @@
     }
 
     vm.saveContact = function (form, contact) {
-      console.log(contact);
       if (form.$valid) {
         dataProvider.saveContact(contact).then(
           function (response) {

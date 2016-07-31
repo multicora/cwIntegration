@@ -1,6 +1,7 @@
 // Ionic App
 
 // TODO: spinner ($ionicLoading)
+// TODO: error handling
 
 // Note: email is communicationItem
 //    communicationItem is multiple for contact
@@ -8,7 +9,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'app' is the name of this angular module (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('app', ['ionic'])
+angular.module('app', ['ngCordova', 'ionic'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -26,20 +27,4 @@ angular.module('app', ['ionic'])
       StatusBar.styleDefault();
     }
   });
-})
-
-.config(function($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/');
-  $stateProvider
-  .state('contactsList', {
-    url: '/',
-    templateUrl: 'contactsList',
-    controller: 'contactsListCtrl as vm'
-  })
-  .state('appSettings', {
-    url: '/appSettings',
-    templateUrl: 'appSettings',
-    controller: 'settingsCtrl as vm'
-  });
-
 });

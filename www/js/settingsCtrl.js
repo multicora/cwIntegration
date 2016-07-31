@@ -4,13 +4,16 @@
     injectArray = ['$state', '$ionicHistory', 'dataProvider'];
 
   function controller ($state, $ionicHistory, dataProvider) {
-    var vm = this,
-      settings = dataProvider.getSettings() || {};
+    var vm = this;
 
-    vm.companyUrl = settings.companyUrl;
-    vm.companyName = settings.companyName;
-    vm.publicKey = settings.publicKey;
-    vm.privateKey = settings.privateKey;
+    dataProvider.getSettings().then(function (settings) {
+      var settings = settings || {};
+
+      vm.companyUrl = settings.companyUrl;
+      vm.companyName = settings.companyName;
+      vm.publicKey = settings.publicKey;
+      vm.privateKey = settings.privateKey;
+    });
 
     vm.save = function (form) {
       form.$setSubmitted();
@@ -21,12 +24,16 @@
           publicKey: vm.publicKey,
           privateKey: vm.privateKey
         });
-        $state.go('contactsList');
+        vm.goBack();
       }
     }
 
     vm.goBack = function () {
-      $ionicHistory.goBack();
+      if ( $ionicHistory.backView() ) {
+        $ionicHistory.goBack();
+      } else {
+        $state.go('contactsList');
+      }
     };
   }
   controller.$inject = injectArray;

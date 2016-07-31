@@ -1,14 +1,18 @@
 (function () {
 
   var app = angular.module('app'),
-    injectArray = ['$state', 'dataProvider'];
+    injectArray = ['$state', 'cordovaResolver', 'dataProvider'];
 
-  function controller ($state, dataProvider) {
-    var settings = dataProvider.getSettings();
+  function controller ($state, cordovaResolver, dataProvider) {
+    var settings;
 
-    if ( !isSettingsSetted(settings) ) {
-      $state.go('appSettings');
-    }
+    cordovaResolver.ready(() => {
+      dataProvider.getSettings().then((settings) => {
+        if ( !isSettingsSetted(settings) ) {
+          $state.go('appSettings');
+        }
+      });
+    })
 
     function isSettingsSetted(settings) {
       settings = settings || {};

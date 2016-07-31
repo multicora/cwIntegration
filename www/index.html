@@ -15,6 +15,8 @@
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <script src="lib/ionic-platform-web-client/dist/ionic.io.bundle.min.js"></script>
+    <script src="lib/underscore/underscore-min.js"></script>
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <!-- Cordova is bootstrapped by ionic-platform-web-client, uncomment this if you remove ionic-platform-web-client... -->
@@ -22,6 +24,8 @@
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/cordovaResolver.js"></script>
     <script src="js/dataProvider.js"></script>
     <script src="js/mainCtrl.js"></script>
     <script src="js/contactsListCtrl.js"></script>
@@ -40,7 +44,7 @@
 
     <script id="contactsList" type="text/ng-template">
       <!-- The title of the ion-view will be shown on the navbar -->
-      <ion-view view-title="Contacts list">
+      <ion-view view-title="Contacts">
         <ion-nav-buttons side="primary">
           <button class="button" ng-click="vm.settingsClickHandler()">
             <i class="icon ion-gear-a"></i>
@@ -120,9 +124,11 @@
             <button class="button button-full button-positive" ng-click="vm.save(settingsForm)">
               Save
             </button>
-            <a class="button button-full button-light" ng-click="vm.goBack()">
+            <a
+              class="button button-full button-light"
+              ng-click="vm.goBack()">
               Cancel
-            </button>
+            </a>
           </form>
         </ion-content>
       </ion-view>
@@ -175,6 +181,7 @@
                     checked="true"
                     disabled>
                     Select company
+                  </option>
                   <option
                     ng-repeat="contactCompany in vm.companies"
                     value="{{contactCompany.id}}">
@@ -208,6 +215,7 @@
                     checked="true"
                     disabled>
                     Select type
+                  </option>
                   <option
                     ng-repeat="contactType in vm.contactTypes"
                     value="{{contactType.id}}">
@@ -221,7 +229,7 @@
             </button>
             <a class="button button-full button-light" ng-click="vm.closeEditContact()">
               Cancel
-            </button>
+            </a>
           </form>
         </ion-content>
       </ion-modal-view>
