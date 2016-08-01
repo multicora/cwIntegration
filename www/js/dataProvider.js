@@ -109,8 +109,8 @@
       });
     }
 
-    function getBaseUrl (companyName) {
-      // return 'https://' + companyName + '.connectwisedev.com/v2016_5/apis/3.0';
+    function getBaseUrl () {
+      // return 'https://' + settings.companyUrl + '.connectwisedev.com/v2016_5/apis/3.0';
       
       // For local testing (redirect to 'https://staging.connectwisedev.com/v2016_5/apis/3.0/')
       return '/api'
@@ -134,11 +134,18 @@
       setSettingsBinded(settings);
     }
 
+    function getCompanies() {
+      var companyUrl = settings.companyUrl;
+
+      return $http.get(getBaseUrl() + '/company/companies', getConfig());
+    }
+
     return {
       init: init,
       getConfig: getConfig,
       getBaseUrl: getBaseUrl,
       saveSettings: saveSettings,
+      getCompanies: getCompanies,
       getSettings: function () {
         return settings;
       }

@@ -202,28 +202,6 @@
                   ng-model="vm.contact.email"
                   required>
               </label>
-              <label class="item item-input item-select">
-                <span
-                  class="input-label"
-                  ng-class="{'assertive': vm.editForm.$submitted && vm.editForm.type.$invalid}">
-                  Type
-                </span>
-                <select
-                  name="type"
-                  ng-model="vm.contact.type.id">
-                  <option
-                    value=""
-                    checked="true"
-                    disabled>
-                    Select type
-                  </option>
-                  <option
-                    ng-repeat="contactType in vm.contactTypes"
-                    value="{{contactType.id}}">
-                    {{contactType.description}}
-                  </option>
-                </select>
-              </label>
             </ion-list>
             <button class="button button-full button-positive" ng-click="vm.saveContact(vm.editForm, vm.contact)">
               Save

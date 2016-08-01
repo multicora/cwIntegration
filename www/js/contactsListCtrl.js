@@ -1,9 +1,9 @@
 (function () {
 
   var app = angular.module('app'),
-    injectArray = ['$scope', '$state', '$ionicModal', '$ionicPopover', 'contactsProvider'];
+    injectArray = ['$scope', '$state', '$ionicModal', '$ionicPopover', 'contactsProvider', 'appConfig', 'dataProvider'];
 
-  function controller ($scope, $state, $ionicModal, $ionicPopover, contactsProvider) {
+  function controller ($scope, $state, $ionicModal, $ionicPopover, contactsProvider, appConfig, dataProvider) {
     var vm = this;
     console.log('-| Contacts list');
     vm.contacts = null;
@@ -15,9 +15,9 @@
     //   vm.contactTypes = response.data;
     // });
 
-    // contactsProvider.getCompanies().then(function (response) {
-    //   vm.companies = response.data;
-    // });
+    dataProvider.getCompanies().then(function (response) {
+      vm.companies = response.data;
+    });
 
     vm.updateContactList = function() {
       contactsProvider.getContacts().then(
@@ -36,6 +36,12 @@
 
     vm.saveContact = function (form, contact) {
       if (form.$valid) {
+        contact.customFields = [
+          {
+            id: appConfig.typeFieldId,
+            value: "Lead"
+          }
+        ];
         contactsProvider.saveContact(contact).then(
           function (response) {
             vm.closeEditContact();
