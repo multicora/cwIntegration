@@ -7,11 +7,10 @@
     var settings;
 
     cordovaResolver.ready(() => {
-      dataProvider.getSettings().then((settings) => {
-        if ( !isSettingsSetted(settings) ) {
-          $state.go('appSettings');
-        }
-      });
+      settings = dataProvider.getSettings();
+      if ( !isSettingsSetted(settings) ) {
+        $state.go('appSettings');
+      }
     })
 
     function isSettingsSetted(settings) {

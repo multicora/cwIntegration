@@ -8,21 +8,22 @@
     var isReady = false
 
     const notifyListener = (listener) => {
-      listener()
+      listener();
     }
 
     $ionicPlatform.ready(() => {
-      dataProvider.init();
-      isReady = true
-      listenersArr.forEach(notifyListener)
+      dataProvider.init().then(function () {
+        isReady = true;
+        listenersArr.forEach(notifyListener);
+      });
     })
 
     return {
       ready: (listener) => {
         if (!isReady) {
-          listenersArr.push(listener)
+          listenersArr.push(listener);
         } else {
-          notifyListener(listener)
+          notifyListener(listener);
         }
       }
     }

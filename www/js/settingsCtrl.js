@@ -5,15 +5,14 @@
 
   function controller ($state, $ionicHistory, dataProvider) {
     var vm = this;
+    console.log('-| settings ctrl');
 
-    dataProvider.getSettings().then(function (settings) {
-      var settings = settings || {};
+    var settings = dataProvider.getSettings() || {};
 
-      vm.companyUrl = settings.companyUrl;
-      vm.companyName = settings.companyName;
-      vm.publicKey = settings.publicKey;
-      vm.privateKey = settings.privateKey;
-    });
+    vm.companyUrl = settings.companyUrl;
+    vm.companyName = settings.companyName;
+    vm.publicKey = settings.publicKey;
+    vm.privateKey = settings.privateKey;
 
     vm.save = function (form) {
       form.$setSubmitted();

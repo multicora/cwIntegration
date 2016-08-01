@@ -14,9 +14,11 @@
     };
 
     var db,
+      settings,
       createDbPromise,
-      getSettingsBinded = 3,
-      setSettingsBinded;
+      getSettingsBinded,
+      setSettingsBinded,
+      getSettingsPromise;
 
     function createTableIfNotExist(db) {
       var query = '' +
@@ -49,6 +51,8 @@
     }
 
     function init() {
+      var deferred = $q.defer();
+
       if (!db) {
         db = $cordovaSQLite.openDB({
           name: "connectWiseInt.db",
@@ -57,13 +61,21 @@
         createDbPromise = createTableIfNotExist(db);
         getSettingsBinded = _.bind(getSettings, null, createDbPromise, db);
         setSettingsBinded = _.bind(setSettings, null, createDbPromise, db);
+        getSettingsBinded().then(function (res) {
+          settings = res;
+          deferred.resolve()
+        });
+      } else {
+        deferred.resolve()
       }
+
+      return deferred.promise;
     }
 
     function getSettings(createDbPromise, db) {
       return createDbPromise.then(function () {
-        let deferred = $q.defer();
-        let query = 'select * from settings';
+        var deferred = $q.defer();
+        var query = 'select * from settings';
 
         $cordovaSQLite.execute(db, query).then(function(res) {
           deferred.resolve( parseData(res.rows) );
@@ -104,64 +116,35 @@
       return '/api'
     }
 
-    function setLocalData(key, value) {
-      localStorage.setItem( key, JSON.stringify(value) );
+    function getConfig() {
+      var companyUrl = settings.companyUrl,
+        companyName = settings.companyName,
+        publicKey = settings.publicKey,
+        privateKey = settings.privateKey,
+        auth = companyName + '+' + publicKey + ':' + privateKey;
+
+      return {
+        headers:  {
+          'Authorization': 'Basic ' + btoa(auth)
+        }
+      };
     }
 
-    function getLocalData(key) {
-      return JSON.parse( localStorage.getItem(key) );
+    function saveSettings(settings) {
+      setSettingsBinded(settings);
     }
-
-    // function getSettings() {
-    //   return getLocalData('settings');
-    // }
 
     return {
       init: init,
-
-      getContacts: function () {
-        var deferred = $q.defer();
-
-        getSettingsBinded().then(function (settings) {
-          var companyUrl = settings.companyUrl,
-            companyName = settings.companyName,
-            publicKey = settings.publicKey,
-            privateKey = settings.privateKey,
-            auth = companyName + '+' + publicKey + ':' + privateKey,
-            config = {
-              headers:  {
-                'Authorization': 'Basic ' + btoa(auth)
-              }
-            };
-
-          $http.get(getBaseUrl(companyUrl) + '/company/contacts', config).then(
-            function (response) {
-              deferred.resolve(response);
-            },
-            function (res) {
-              deferred.reject(res.data);
-            }
-          );
-        });
-
-        return deferred.promise;
-      },
-
-      saveSettings: (settings) => {
-        setSettingsBinded(settings)
-      },
-
+      getConfig: getConfig,
+      getBaseUrl: getBaseUrl,
+      saveSettings: saveSettings,
       getSettings: function () {
-        return getSettingsBinded()
-      },
-
-      // getCustomFields: function () {
-      //   https://staging.connectwisedev.com/v2016_5/apis/3.0/system/userDefinedFields
-      // }
+        return settings;
+      }
     };
   }
   provider.$inject = injectArray;
   app.service('dataProvider', provider);
 
 })();
-
